@@ -1,0 +1,152 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using WebClient.Models
+@model Tuple<List<FornameModel>, Patient, List<Patient>>
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    @using (Html.BeginForm("SavePatient", "Home",FormMethod.Post))
+    {
+        <div class="">
+            <div class="row form-control">
+                <div class="col col-lg-2">
+                    @Html.DropDownList("forname", new SelectList(Model.Item1.Select(x => x.FORNAME)))
+                    
+                </div>
+                <div class="col col-lg-2">
+                    @Html.LabelFor(model => Model.Item2.Firstname, "First Name")
+                </div>
+                <div class="col col-lg-3">
+                    @Html.TextBoxFor(model => Model.Item2.Firstname, new { Name="Firstname", id="Firstname",autocomplete="off"})
+                    @Html.ValidationMessageFor(model => Model.Item2.Firstname, "", new { data_valmsg_for="Firstname", @class = "text-danger" ,@style= "position: absolute;width:200px; margin-left:10px;" })
+                </div>
+                <div class="col col-lg-2">
+                    @Html.LabelFor(model => Model.Item2.Surname, "SurName")
+                </div>
+                <div class="col col-lg-3">
+                    @Html.TextBoxFor(model => Model.Item2.Surname, new { Name = "Surname", id = "Surname", autocomplete = "off" })
+                    @Html.ValidationMessageFor(model => Model.Item2.Surname, "", new { data_valmsg_for = "Surname", @class = "text-danger", @style = "position: absolute;width:200px; margin-left:10px;" })
+                </div>
+            </div>
+            <div class="row form-control">
+                <div class="col col-lg-2">
+                    &nbsp;
+                </div>
+                <div class="col col-lg-2">
+                    @Html.LabelFor(model => Model.Item2.Gender, "Gender")
+                </div>
+                <div class="col col-lg-3">
+                    @Html.TextBoxFor(model => Model.Item2.Gender, new { Name = "Gender", id = "Gender", autocomplete = "off" })
+                    @Html.ValidationMessageFor(model => Model.Item2.Gender, "", new { data_valmsg_for = "Gender", @class = "text-danger", @style = "position: absolute;width:200px; margin-left:10px;" })
+                </div>
+                <div class="col col-lg-2">
+                    @Html.LabelFor(model => Model.Item2.DateofBirth, "Date of Birth")
+                </div>
+                <div class="col col-lg-3">
+                    @Html.TextBoxFor(model => Model.Item2.DateofBirth, new { Name="DateofBirth",id="DateofBirth", placeholder = "dd-MM-yyyy", autocomplete = "off" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    Telephone Numbers
+                </div>
+            </div>
+            <div class="row form-control">
+                <div class="col col-lg-1">
+                    @Html.LabelFor(model => Model.Item2.Mobile, "Mobile")
+                </div>
+                <div class="col col-lg-3">
+                    @Html.TextBoxFor(model => Model.Item2.Mobile, new { Name = "Mobile", id = "Mobile", autocomplete = "off" })
+                </div>
+                <div class="col col-lg-1">
+                    @Html.LabelFor(model => Model.Item2.Home, "Home")
+                </div>
+                <div class="col col-lg-3">
+                    @Html.TextBoxFor(model => Model.Item2.Home, new { Name = "Home", id = "Home", autocomplete = "off" })
+                </div>
+                <div class="col col-lg-1">
+                    @Html.LabelFor(model => Model.Item2.Work, "Work")
+                </div>
+                <div class="col col-lg-3">
+                    @Html.TextBoxFor(model => Model.Item2.Work, new { Name = "Work", id = "Work", autocomplete = "off" })
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:20px;">
+                <div class="col">
+                    <input type="submit" name="Save_Patient" value="Save Patient" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<th>
+    <table class="table">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">
+                    ForName
+                </th>
+                <th scope="col">
+                    First Name
+                </th>
+                <th scope="col">
+                    SurName
+                </th>
+                <th scope="col">
+                    Gender
+                </th>
+                <th scope="col">
+                    Date Of Birth
+                </th>
+                <th scope="col">
+                    Mobile
+                </th>
+                <th scope="col">
+                    Home
+                </th>
+                <th scope="col">
+                    Work
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Item3.Count > 0)
+            {
+                foreach(var patient in Model.Item3)
+                {
+                    <tr>
+                        <td>
+                            @patient.Forname
+                        </td>
+                        <td>
+                            @patient.Firstname
+                        </td>
+                        <td>
+                            @patient.Surname
+                        </td>
+                        <td>
+                           @patient.Gender
+                        </td>
+                        <td>
+                            @{ 
+                               var dob= patient.DateofBirth == null ? null : Convert.ToDateTime(patient.DateofBirth).ToString("dd-MM-yyyy");
+                            }
+                            @dob
+                        </td>
+                        <td>
+                            @patient.Mobile
+                        </td>
+                        <td>
+                            @patient.Home
+                        </td>
+                        <td>
+                            @patient.Work
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
